@@ -34,4 +34,4 @@
 - **PAYMENT**
   - **ChargeCreated**
 
-[structure]: ./assets/Screenshot2022-03-01at18.31.48.png 'Structure Image'
+[structure]: ./assets/Screenshot2022-03-01at18.31.48.png.png 'Structure Image'
