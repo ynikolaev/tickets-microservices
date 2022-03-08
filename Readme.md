@@ -2,7 +2,7 @@
 
 ![alt text][structure]
 
-- **Common** - library to share code amongst services
+- **Common** - @yn-projects/common npm library to share code amongst services
 - **NATS Streaming Server** - Event Bus
 
 # Services
@@ -15,6 +15,12 @@
   | /api/users/signout | POST | {} | Sign out
   | /api/users/currentuser | GET | -- | Return info about the user
 - **Tickets** - creation/editing
+  | Route | Methpd | Body | Purpose |
+  | ------------- |:-------------:| :-----:| -----:|
+  | /api/tickets | GET | - | Retrieve all tickets
+  | /api/tickets/:id | GET | - | Retrieve specific ticket
+  | /api/tickets | POST | {title: string, price: string} | Create a ticket
+  | /api/tickets | PUT | {title: string, price: string} | Update a ticket
 - **Orders** - creation/editing
 - **Payments** - handles credit card payments. Cancels orders if payments fails, completes if payment succeeds
 - **Expiration** - watches orders, cancel them after 15 minutes

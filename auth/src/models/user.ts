@@ -1,15 +1,20 @@
 import mongoose from 'mongoose';
 import { Password } from '../services/password';
 
+// An interface that describes the properties that are required to create a new User
+// What we want to have
 interface IUserAttrs {
   email: string;
   password: string;
 }
 
+// An interface that describes the properties that a UserModel has
 interface IUserModel extends mongoose.Model<IUserDocument> {
   build(attrs: IUserAttrs): IUserDocument;
 }
 
+// An interface that describes the properties that a UserModel has
+// What mongoose will have
 interface IUserDocument extends mongoose.Document {
   email: string;
   password: string;
