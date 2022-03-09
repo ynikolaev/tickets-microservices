@@ -11,6 +11,7 @@ interface ITicketAttrs {
 // An interface that describes the properties that a UserModel has
 // What mongoose will have
 interface ITicketDocument extends mongoose.Document {
+  id: string;
   title: string;
   price: number;
   userId: string;
