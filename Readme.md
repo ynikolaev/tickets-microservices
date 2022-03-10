@@ -22,6 +22,12 @@
   | /api/tickets | POST | {title: string, price: string} | Create a ticket
   | /api/tickets | PUT | {title: string, price: string} | Update a ticket
 - **Orders** - creation/editing
+  | Route | Methpd | Body | Purpose |
+  | ------------- |:-------------:| :-----:| -----:|
+  | /api/orders | GET | - | Retrieve all active orders for the given user making the request
+  | /api/orders/:id | GET | - | Retrieve details about a specific order
+  | /api/orders | POST | {ticketId: string} | Create an order to purchase the specified ticket
+  | /api/orders/:id | DELETE | {orderId: string} | Cancel the order
 - **Payments** - handles credit card payments. Cancels orders if payments fails, completes if payment succeeds
 - **Expiration** - watches orders, cancel them after 15 minutes
 
