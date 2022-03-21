@@ -4,6 +4,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import { Order } from '../../models/order';
 import { Ticket } from '../../models/ticket';
+import { natsWrapper } from '../../nats';
 
 it('has a route handler listening to /api/orders for post request', async () => {
   const response = await request(app).post('/api/orders').send({});
@@ -98,11 +99,19 @@ it('returns 201 and saves the order', async () => {
   expect(orderId).toEqual(existingOrder!.id);
 });
 
-it.todo('emits an order:created event');
+it('emits an order:created event', async () => {
+  const ticket = Ticket.build({
+    title: 'Ticket1',
+    price: 20,
+  });
+  const { id: ticketId } = await ticket.save();
+  await request(app)
+    .post('/api/orders')
+    .set('Cookie', signin())
+    .send({
+      ticketId,
+    })
+    .expect(201);
 
-//  const existingOrder = await Order.findOne({
-//    ticket: this as any,
-//    status: {
-//      $in: [OrderStatus.Created, OrderStatus.AwaitingPayment, OrderStatus.Complete],
-//    },
-//  });
+  expect(natsWrapper.client.publish).toBeCalledTimes(1);
+});
