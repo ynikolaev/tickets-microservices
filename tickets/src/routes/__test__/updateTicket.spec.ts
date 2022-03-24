@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../app';
+import { Ticket } from '../../models/ticket';
 
 const ticketData = {
   title: 'test',
@@ -103,4 +104,31 @@ it('returns 204 and updates a ticket with valid input', async () => {
 
   expect(result.body.title).toEqual(updatedTicket.title);
   expect(result.body.price).toEqual(updatedTicket.price);
+});
+
+it('returns 400 and rejects updates if the ticket is reserved', async () => {
+  const id = new mongoose.Types.ObjectId().toHexString();
+  const userCookie = signin(id);
+
+  const ticket = Ticket.build({
+    title: 'concert',
+    price: 10,
+    userId: id,
+  });
+  ticket.set({ orderId: new mongoose.Types.ObjectId().toHexString() });
+  await ticket.save();
+
+  const updatedTicket = {
+    title: 'UpdatedTicket',
+    price: 1000,
+  };
+
+  await request(app)
+    .put(`/api/tickets/${ticket.id}`)
+    .set('Cookie', userCookie)
+    .send({
+      title: updatedTicket.title,
+      price: updatedTicket.price,
+    })
+    .expect(400);
 });

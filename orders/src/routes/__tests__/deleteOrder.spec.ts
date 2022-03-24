@@ -27,6 +27,7 @@ it('returns 404 if order was not found', async () => {
 it('returns 401 if order returned was not created by this user', async () => {
   const userId = new mongoose.Types.ObjectId().toHexString();
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Ticket1',
     price: 20,
   });
@@ -44,6 +45,7 @@ it('returns 401 if order returned was not created by this user', async () => {
 it('returns 204, cancel order and returns order if request is valid', async () => {
   const userId = new mongoose.Types.ObjectId().toHexString();
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Ticket1',
     price: 20,
   });
@@ -65,6 +67,7 @@ it('returns 204, cancel order and returns order if request is valid', async () =
 it('emits a order:cancelled event', async () => {
   const userId = new mongoose.Types.ObjectId().toHexString();
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Ticket1',
     price: 20,
   });

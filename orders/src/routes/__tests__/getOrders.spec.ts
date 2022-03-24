@@ -1,11 +1,14 @@
-import { OrderStatus } from '@yn-projects/common';
+import mongoose from 'mongoose';
 import request from 'supertest';
+import { OrderStatus } from '@yn-projects/common';
+
 import { app } from '../../app';
 import { IOrderDocument, Order } from '../../models/order';
 import { ITicketDocument, Ticket } from '../../models/ticket';
 
 const buildTicket = async () => {
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Ticket1',
     price: 20,
   });

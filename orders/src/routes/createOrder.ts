@@ -2,6 +2,7 @@ import { BadRequestError, NotFoundError, OrderStatus, requireAuth, validateReque
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
+import { version } from 'node-nats-streaming';
 import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
 import { Order } from '../models/order';
 import { Ticket } from '../models/ticket';
@@ -49,6 +50,7 @@ router.post(
       status: order.status,
       userId: req.currentUser!.id,
       expiresAt: order.expiresAt.toISOString(),
+      version: order.version,
       ticket: {
         id: order.ticket.id,
         price: order.ticket.price,

@@ -1,5 +1,6 @@
 import { OrderStatus } from '@yn-projects/common';
 import mongoose from 'mongoose';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 import { ITicketDocument } from './ticket';
 
 // An interface that describes the properties that are required to create a new User
@@ -17,6 +18,7 @@ export interface IOrderDocument extends mongoose.Document {
   userId: string;
   status: OrderStatus;
   expiresAt: Date;
+  version: number;
   ticket: ITicketDocument;
 }
 
@@ -56,6 +58,8 @@ const OrderSchema = new mongoose.Schema(
   }
 );
 
+OrderSchema.set('versionKey', 'version');
+OrderSchema.plugin(updateIfCurrentPlugin);
 OrderSchema.statics.build = (attrs: IOrderAttrs) => new Order(attrs);
 
 const Order = mongoose.model<IOrderDocument, IOrderModel>('Order', OrderSchema);

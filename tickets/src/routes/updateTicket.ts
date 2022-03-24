@@ -1,4 +1,4 @@
-import { NotAuthorisedError, NotFoundError, requireAuth, validateRequest } from '@yn-projects/common';
+import { BadRequestError, NotAuthorisedError, NotFoundError, requireAuth, validateRequest } from '@yn-projects/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher';
@@ -18,13 +18,9 @@ router.put(
   async (req: Request, res: Response) => {
     const ticket = await Ticket.findById(req.params.id);
 
-    if (!ticket) {
-      throw new NotFoundError();
-    }
-
-    if (ticket.userId !== req.currentUser?.id) {
-      throw new NotAuthorisedError();
-    }
+    if (!ticket) throw new NotFoundError();
+    if (ticket.userId !== req.currentUser?.id) throw new NotAuthorisedError();
+    if (ticket.orderId) throw new BadRequestError('Canot edit reserved ticket');
 
     const { title, price } = req.body;
     ticket.set({
@@ -37,7 +33,8 @@ router.put(
       id: ticket.id,
       title: ticket.title,
       price: ticket.price,
-      userId: ticket.id,
+      userId: req.currentUser.id,
+      version: ticket.version,
     });
 
     res.status(200).send(ticket);
