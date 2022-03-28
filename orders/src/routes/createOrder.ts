@@ -1,14 +1,14 @@
-import { BadRequestError, NotFoundError, OrderStatus, requireAuth, validateRequest } from '@yn-projects/common';
 import express, { Request, Response } from 'express';
-import { body } from 'express-validator';
 import mongoose from 'mongoose';
-import { version } from 'node-nats-streaming';
+import { BadRequestError, NotFoundError, OrderStatus, requireAuth, validateRequest } from '@yn-projects/common';
+import { body } from 'express-validator';
+
 import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
 import { Order } from '../models/order';
 import { Ticket } from '../models/ticket';
 import { natsWrapper } from '../nats';
 
-const EXPIRATION_WINDOW_SECONDS = 16 * 60;
+const EXPIRATION_WINDOW_SECONDS = 1 * 60;
 const router = express.Router();
 
 router.post(
