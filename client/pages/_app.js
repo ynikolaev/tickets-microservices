@@ -5,25 +5,27 @@ import Header from '../components/header';
 // Wrapper
 function MyApp({ Component, pageProps, currentUser }) {
   return (
-    <div className='container'>
+    <div>
       <Header currentUser={currentUser} />
-      <Component {...pageProps} />
+      <div className='container'>
+        <Component currentUser={currentUser} {...pageProps} />
+      </div>
     </div>
   );
 }
 
 MyApp.getInitialProps = async ({ ctx, ...rest }) => {
-  const { data } = await buildClient(ctx).get('/api/users/currentuser');
+  const client = buildClient(ctx);
+  const { data } = await client.get('/api/users/currentuser');
 
   let pageProps = {};
   if (rest.Component.getInitialProps) {
-    const { currentUser } = await rest.Component.getInitialProps(ctx);
-    pageProps = { ...pageProps, currentUser: currentUser };
+    pageProps = await rest.Component.getInitialProps(ctx, client, data.currentUser);
   }
 
   return {
     pageProps,
-    currentUser: data.currentUser,
+    ...data,
   };
 };
 

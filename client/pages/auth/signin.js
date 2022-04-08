@@ -21,38 +21,36 @@ export default function Signin() {
   };
 
   return (
-    <div className='container-md'>
-      <form onSubmit={onSubmitHandler}>
-        <h1>Sign In</h1>
-        {errors}
-        <div className='mb-3'>
-          <label className='form-label'>Email address</label>
-          <input
-            type='email'
-            autoComplete='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className='form-control'
-            id='exampleInputEmail1'
-            aria-describedby='emailHelp'
-          />
-        </div>
-        <div className='mb-3'>
-          <label className='form-label'>Password</label>
-          <input
-            type='password'
-            autoComplete='current-password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className='form-control'
-            id='exampleInputPassword1'
-          />
-        </div>
+    <form onSubmit={onSubmitHandler}>
+      <h1>Sign In</h1>
+      {errors}
+      <div className='mb-3'>
+        <label className='form-label'>Email address</label>
+        <input
+          type='email'
+          autoComplete='email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className='form-control'
+          id='exampleInputEmail1'
+          aria-describedby='emailHelp'
+        />
+      </div>
+      <div className='mb-3'>
+        <label className='form-label'>Password</label>
+        <input
+          type='password'
+          autoComplete='current-password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className='form-control'
+          id='exampleInputPassword1'
+        />
+      </div>
 
-        <button type='submit' className='btn btn-primary'>
-          Submit
-        </button>
-      </form>
-    </div>
+      <button type='submit' className='btn btn-primary'>
+        Submit
+      </button>
+    </form>
   );
 }
